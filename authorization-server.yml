@@ -1,16 +1,41 @@
 spring:
+
+  # Database
   datasource:
-    url:      jdbc:postgres://localhost:5432/auth_db
+    url:      jdbc:postgresql://localhost:5432/auth_db
     username: postgres
     password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  # JPA
   jpa:
     hibernate:
       ddl-auto: none
     open-in-view: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+jwt:
+  secret: 212385c0ddb0450f600ae40618b027d7a9a9bdc70387d7eca6cc1677c891297bbfbee707a2c79511955e50eb5bcd59eca9dc69e4e80cc17afd7b511fbbea4346912d0d528aeff2b08a0409a954aefa54d5d35a555cc9df6647f8aa8540fd833ac46d32272d7e6002ab256b32c82d034230784becb1a30be09cb4a515b5fc8a38239159092c225dc3da1882ece7ce9ae52ef1b21d4673b6788c0a351fe702e70ed375583b72b9ed8b49c735603d4efe475d99dbd3b6ca2cb1335db2315d14078fb0008d30b06d526014fc516f6032ea4eff458bbcf5c8e1ea0057f26724b0ef9771bdf105a28c4651a20d91a1a3ea979d4a3084121043157f0f4d36b4c86031aa
+  accessExpiration:  5000
+  refreshExpiration: 60000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
 ---
 spring:
+  config:
+    activate:
+      on-profile: docker
+
+  # Database
   datasource:
-    url:      jdbc:postgres://postgres:5432/auth_db
+    url:      jdbc:postgresql://postgres:5432/auth_db
     password: ${POSTGRES_PASSWORD}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/
